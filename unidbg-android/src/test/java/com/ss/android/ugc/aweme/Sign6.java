@@ -39,7 +39,7 @@ public class Sign6 extends AbstractJni {
         vm = emulator.createDalvikVM(new File("C:\\eclipse-workspace\\unidbg\\unidbg-android\\src\\test\\resources\\dy233\\dy233.apk"));
         vm.setJni(this);
         vm.setVerbose(true);
-
+       // vm.setVerbose(false);
         DvmClass a = vm.resolveClass("ms/bd/c/k");
         DvmClass b = vm.resolveClass("ms/bd/c/a0", a);
         DvmClass c = vm.resolveClass("com/bytedance/mobsec/metasec/ml/MS", b);

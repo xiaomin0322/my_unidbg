@@ -22,11 +22,12 @@ public class Sign6 extends AbstractJni {
 
     private Sign6() {
         emulator = AndroidEmulatorBuilder
-                //.for32Bit()
-        		.for64Bit()
+                .for32Bit()
+        		//.for64Bit()
                 .setProcessName("com.ss.android.ugc.aweme")
                 .addBackendFactory(new Unicorn2Factory(true))
                 .build();
+        //emulator.getBackend().registerEmuCountHook(100000);
         emulator.getBackend().registerEmuCountHook(100000);
         emulator.getSyscallHandler().setVerbose(true);
         emulator.getSyscallHandler().setEnableThreadDispatcher(true);
@@ -36,7 +37,8 @@ public class Sign6 extends AbstractJni {
         memory.setCallInitFunction(true);
 
         //vm = emulator.createDalvikVM(new File("unidbg-android/src/test/resources/dy233/dy233.apk"));
-        vm = emulator.createDalvikVM(new File("C:\\eclipse-workspace\\unidbg\\unidbg-android\\src\\test\\resources\\dy233\\dy233.apk"));
+        //vm = emulator.createDalvikVM(new File("C:\\eclipse-workspace\\unidbg\\unidbg-android\\src\\test\\resources\\dy233\\dy233.apk"));
+        vm = emulator.createDalvikVM();
         vm.setJni(this);
         vm.setVerbose(true);
        // vm.setVerbose(false);
@@ -44,7 +46,8 @@ public class Sign6 extends AbstractJni {
         DvmClass b = vm.resolveClass("ms/bd/c/a0", a);
         DvmClass c = vm.resolveClass("com/bytedance/mobsec/metasec/ml/MS", b);
         System.out.println("start>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        DalvikModule dm = vm.loadLibrary("metasec_ml", true);
+       // DalvikModule dm = vm.loadLibrary("metasec_ml", true);
+        DalvikModule dm = vm.loadLibrary(new File("C:\\eclipse-workspace\\unidbg\\unidbg-android\\src\\test\\resources\\dy233\\libmetasec_ml.so"), false);
         System.out.println("start2222222222222222222222>>>>>>>>>>>>>>>>>>>>>>>>>>");
         module = dm.getModule();
         dm.callJNI_OnLoad(emulator);

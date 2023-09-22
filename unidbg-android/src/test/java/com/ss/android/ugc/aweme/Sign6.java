@@ -43,11 +43,12 @@ public class Sign6 extends AbstractJni {
         DvmClass a = vm.resolveClass("ms/bd/c/k");
         DvmClass b = vm.resolveClass("ms/bd/c/a0", a);
         DvmClass c = vm.resolveClass("com/bytedance/mobsec/metasec/ml/MS", b);
-
+        System.out.println("start>>>>>>>>>>>>>>>>>>>>>>>>>>");
         DalvikModule dm = vm.loadLibrary("metasec_ml", true);
+        System.out.println("start2222222222222222222222>>>>>>>>>>>>>>>>>>>>>>>>>>");
         module = dm.getModule();
         dm.callJNI_OnLoad(emulator);
-        System.out.println("ok");
+        System.out.println("ok>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
 
     @Override

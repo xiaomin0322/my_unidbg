@@ -22,7 +22,8 @@ public class Sign6 extends AbstractJni {
 
     private Sign6() {
         emulator = AndroidEmulatorBuilder
-                .for32Bit()
+                //.for32Bit()
+        		.for64Bit()
                 .setProcessName("com.ss.android.ugc.aweme")
                 .addBackendFactory(new Unicorn2Factory(true))
                 .build();

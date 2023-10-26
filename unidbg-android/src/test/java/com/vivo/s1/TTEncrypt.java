@@ -3,6 +3,7 @@ package com.vivo.s1;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.security.PublicKey;
 import java.security.cert.CertificateException;
 
@@ -90,8 +91,9 @@ public class TTEncrypt extends AbstractJni {
 		switch (signature) {
 		case "android/util/Base64->encode([BI)[B":
 			Integer value = vaList.getIntArg(0);
-			ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
-			buffer.putInt(value);
+			ByteBuffer buffer = ByteBuffer.allocate(8);
+			buffer.order(ByteOrder.LITTLE_ENDIAN);
+			buffer.putInt(0,value);
 			byte[] byteArray = buffer.array();
 			int intArg = vaList.getIntArg(1);
 			return new ByteArray(vm, Base64.encode(byteArray, intArg));
@@ -117,7 +119,8 @@ public class TTEncrypt extends AbstractJni {
 		test.nativeCheckSignatures();
 		// test.nativeGetRsaPrivateKey();
 		// String ttEncrypt = test.ttdecrypt(str);
-		String ttEncrypt = test.ttEncrypt("asdf");
+		//test.nativeAesEncrypt("asdf");
+		String ttEncrypt = test.nativeBase64Encrypt("asdf");
 		System.out.println("解妈：" + ttEncrypt);
 		test.destroy();
 	}
@@ -165,15 +168,29 @@ public class TTEncrypt extends AbstractJni {
 		// System.out.println("nativeFuncAddr===============:"+nativeFuncAddr);
 		return new String(((ByteArray) callStaticJniMethodObject).getValue());
 	}
+	
+   public String nativeAesEncrypt(String str) throws Exception {
+		
+		//DvmObject<?> callStaticJniMethodObject = TTEncryptUtils.newObject(null).callJniMethodObject(emulator,"nativeBase64Encrypt([B)[B", new ByteArray(vm, str.getBytes("utf-8")));
+		
+		ByteArray callStaticJniMethodObject = TTEncryptUtils.callStaticJniMethodObject(emulator,"nativeAesEncrypt([BI)[B", new ByteArray(vm, str.getBytes("utf-8")),1);
+		// Object callStaticJniMethodObject = TTEncryptUtils.callStaticJniMethodObject(emulator,
+		// "nativeBase64Encrypt([B)[B", str.getBytes("utf-8"));
+		System.out.println("nativeAesEncrypt>>>>>>>>>" + callStaticJniMethodObject);
+		return new String(((ByteArray) callStaticJniMethodObject).getValue());
+		
+		
+		
+	}
 
-	public String ttEncrypt(String str) throws Exception {
+	public String nativeBase64Encrypt(String str) throws Exception {
 		
 		//DvmObject<?> callStaticJniMethodObject = TTEncryptUtils.newObject(null).callJniMethodObject(emulator,"nativeBase64Encrypt([B)[B", new ByteArray(vm, str.getBytes("utf-8")));
 		
 		ByteArray callStaticJniMethodObject = TTEncryptUtils.callStaticJniMethodObject(emulator,"nativeBase64Encrypt([B)[B", new ByteArray(vm, str.getBytes("utf-8")));
 		// Object callStaticJniMethodObject = TTEncryptUtils.callStaticJniMethodObject(emulator,
 		// "nativeBase64Encrypt([B)[B", str.getBytes("utf-8"));
-		System.out.println("byte[]>>>>>>>>>" + callStaticJniMethodObject);
+		System.out.println("nativeBase64Encrypt>>>>>>>>>" + callStaticJniMethodObject);
 		return new String(((ByteArray) callStaticJniMethodObject).getValue());
 		
 		

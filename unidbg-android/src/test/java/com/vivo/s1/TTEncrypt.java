@@ -23,6 +23,7 @@ import com.github.unidbg.linux.android.dvm.VM;
 import com.github.unidbg.linux.android.dvm.VaList;
 import com.github.unidbg.linux.android.dvm.api.Signature;
 import com.github.unidbg.linux.android.dvm.array.ByteArray;
+import com.github.unidbg.linux.android.dvm.jni.ProxyDvmObject;
 import com.github.unidbg.memory.Memory;
 
 public class TTEncrypt extends AbstractJni {
@@ -123,7 +124,7 @@ public class TTEncrypt extends AbstractJni {
 		
 		test.callInit();
 		
-		//test.callInit2();
+		test.callInit2();
 		
 		test.nativeCheckSignatures();
 		// test.nativeGetRsaPrivateKey();
@@ -144,7 +145,7 @@ public class TTEncrypt extends AbstractJni {
 		DvmObject<?> dvmObject = vm.resolveClass("android/content/Context").newObject(null);
 		FileDescriptor descriptor = FileDescriptor.out;
 		int callStaticJniMethodBoolean = TTEncryptUtils.callStaticJniMethodInt(emulator,
-				"nativeSecurityInit(Landroid/content/Context;Ljava/io/FileDescriptor;JJ)I",dvmObject,descriptor,0,0);
+				"nativeSecurityInit(Landroid/content/Context;Ljava/io/FileDescriptor;JJ)I",dvmObject,ProxyDvmObject.createObject(vm, descriptor),0,0);
 		System.out.println("callInit返回值:" + callStaticJniMethodBoolean);
 	}
 	

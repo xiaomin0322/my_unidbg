@@ -33,7 +33,8 @@ public class SignUtil {
         vm = emulator.createDalvikVM();
         vm.setDvmClassFactory(new ProxyClassFactory());
         vm.setVerbose(false);
-        DalvikModule dm = vm.loadLibrary(new File("unidbg-android/src/test/resources/example_binaries/armeabi-v7a/libsignutil.so"), false);
+     //   DalvikModule dm = vm.loadLibrary(new File("unidbg-android/src/test/resources/example_binaries/armeabi-v7a/libsignutil.so"), false);
+        DalvikModule dm = vm.loadLibrary(new File("C:\\eclipse-workspace\\unidbg\\unidbg-android\\src\\test\\resources\\example_binaries\\armeabi-v7a\\libsignutil.so"), false);
         cSignUtil = vm.resolveClass("com/anjuke/mobile/sign/SignUtil");
         dm.callJNI_OnLoad(emulator);
     }

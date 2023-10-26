@@ -1,6 +1,7 @@
 package com.vivo.s1;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -121,6 +122,9 @@ public class TTEncrypt extends AbstractJni {
 		//System.out.println(new String(Base64.decode(str, 90)));
 		
 		test.callInit();
+		
+		//test.callInit2();
+		
 		test.nativeCheckSignatures();
 		// test.nativeGetRsaPrivateKey();
 		// String ttEncrypt = test.ttdecrypt(str);
@@ -133,6 +137,14 @@ public class TTEncrypt extends AbstractJni {
 	public void callInit() {
 		boolean callStaticJniMethodBoolean = TTEncryptUtils.callStaticJniMethodBoolean(emulator,
 				"nativeSecurityInit()Z");
+		System.out.println("callInit返回值:" + callStaticJniMethodBoolean);
+	}
+	
+	public void callInit2() {
+		DvmObject<?> dvmObject = vm.resolveClass("android/content/Context").newObject(null);
+		FileDescriptor descriptor = FileDescriptor.out;
+		int callStaticJniMethodBoolean = TTEncryptUtils.callStaticJniMethodInt(emulator,
+				"nativeSecurityInit(Landroid/content/Context;Ljava/io/FileDescriptor;JJ)I",dvmObject,descriptor,0,0);
 		System.out.println("callInit返回值:" + callStaticJniMethodBoolean);
 	}
 	
